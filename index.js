@@ -21,20 +21,30 @@ window.addEventListener("load", () => {
         painting = false;
         canvas.beginPath();
     }
+    
+    function getMousePos(canvasBody, event) {
+      var rect = canvasBody.getBoundingClientRect();
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+  }
 
     function draw (event) {
       if (!painting) {
         return;
-      }
-      
+      } 
+
+      let pos = getMousePos(canvasBody, event);
+
       canvas.lineWidth = options.weight;
       canvas.lineCap = "round";
       canvas.strokeStyle = options.color.toString();
 
-      canvas.lineTo(event.clientX, event.clientY);
+      canvas.lineTo(pos.x, pos.y);
       canvas.stroke();
       canvas.beginPath();
-      canvas.moveTo(event.clientX,event.clientY);
+      canvas.moveTo(pos.x, pos.y);
     }
     
     canvasBody.addEventListener("mousedown",startPosition);
